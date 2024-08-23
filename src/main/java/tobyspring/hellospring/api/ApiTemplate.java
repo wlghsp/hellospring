@@ -9,6 +9,31 @@ import java.net.URISyntaxException;
 
 public class ApiTemplate {
 
+    private final ApiExecutor apiExecutor;
+    private final ExRateExtractor exRateExtractor;
+
+    public ApiTemplate() {
+        this.apiExecutor = new HttpClientApiExecutor();
+        this.exRateExtractor = new ErApiExtractor();
+    }
+
+    public ApiTemplate(ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
+        this.apiExecutor = apiExecutor;
+        this.exRateExtractor = exRateExtractor;
+    }
+
+    public BigDecimal getForExRate(String url) {
+        return this.getExRate(url, this.apiExecutor, this.exRateExtractor);
+    }
+
+    public BigDecimal getForExRate(String url, ApiExecutor apiExecutor) {
+        return this.getExRate(url, apiExecutor, this.exRateExtractor);
+    }
+
+    public BigDecimal getForExRate(String url, ExRateExtractor exRateExtractor) {
+        return this.getExRate(url, this.apiExecutor, exRateExtractor);
+    }
+
     public BigDecimal getExRate(String url, ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
         URI uri;
         try {
